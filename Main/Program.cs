@@ -52,7 +52,7 @@ namespace Main
                 var neighbour = graph.g().V(minvertex).Both().Id().Next();
                 foreach(var s in neighbour)
                 {
-                    if(degree.ContainsKey(s) && degree[s]>degree[minvertex])
+                    if(degree.ContainsKey(s) && degree[s]>=degree[minvertex])
                     {
                         degree[s] -= 1;
                     }
@@ -62,7 +62,7 @@ namespace Main
             }
             foreach (KeyValuePair<string, int> kvp in core)
             {
-                Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+                Console.WriteLine("name = {0}, core = {1}", graph.g().V(kvp.Key).Values("name").Next()[0], kvp.Value);
             }
         }
     }
