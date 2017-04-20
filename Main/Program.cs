@@ -35,10 +35,34 @@ namespace Main
             connection.ResetCollection();
             GraphViewCommand graph = new GraphViewCommand(connection);
             Program.LoadClassicGraphData(graph);
-            var val = graph.g().V().Both().GroupCount().Next();
+
+            var val = graph.g().V().Id().Next();
+            Dictionary<string, int> degree = new Dictionary<string, int>();
+            Dictionary<string, int> core = new Dictionary<string, int>();
             foreach (var x in val)
             {
-                Console.WriteLine(x);
+                int deg = int.Parse(graph.g().V(x).Both().Count().Next()[0]);
+                degree.Add(x, deg);
+            }
+            int n = degree.Count();
+            while (n>0)
+            {
+                var minvertex = degree.Min(x => x.Key);
+                core.Add(minvertex, degree[minvertex]);
+                var neighbour = graph.g().V(minvertex).Both().Id().Next();
+                foreach(var s in neighbour)
+                {
+                    if(degree.ContainsKey(s) && degree[s]>degree[minvertex])
+                    {
+                        degree[s] -= 1;
+                    }
+                }
+                degree.Remove(minvertex);
+                n--;
+            }
+            foreach (KeyValuePair<string, int> kvp in core)
+            {
+                Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
             }
         }
     }
