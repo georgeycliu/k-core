@@ -47,14 +47,16 @@ namespace Main
             int n = degree.Count();
             while (n>0)
             {
-                var minvertex = degree.Min(x => x.Key);
+                var minvertex = degree.OrderBy(kvp => kvp.Value).First().Key;
+                //Console.WriteLine(graph.g().V(minvertex).Values("name").Next()[0]);
                 core.Add(minvertex, degree[minvertex]);
                 var neighbour = graph.g().V(minvertex).Both().Id().Next();
                 foreach(var s in neighbour)
                 {
-                    if(degree.ContainsKey(s) && degree[s]>=degree[minvertex])
+                    if(degree.ContainsKey(s) && degree[s]>degree[minvertex])
                     {
                         degree[s] -= 1;
+                        //Console.WriteLine(graph.g().V(s).Values("name").Next()[0]);
                     }
                 }
                 degree.Remove(minvertex);
@@ -62,7 +64,7 @@ namespace Main
             }
             foreach (KeyValuePair<string, int> kvp in core)
             {
-                Console.WriteLine("name = {0}, core = {1}", graph.g().V(kvp.Key).Values("name").Next()[0], kvp.Value);
+                Console.WriteLine("name = {0}, core_number = {1}", graph.g().V(kvp.Key).Values("name").Next()[0], kvp.Value);
             }
         }
     }
