@@ -48,7 +48,6 @@ namespace Main
             while (n>0)
             {
                 var minvertex = degree.OrderBy(kvp => kvp.Value).First().Key;
-                //Console.WriteLine(graph.g().V(minvertex).Values("name").Next()[0]);
                 core.Add(minvertex, degree[minvertex]);
                 var neighbour = graph.g().V(minvertex).Both().Id().Next();
                 foreach(var s in neighbour)
@@ -56,7 +55,6 @@ namespace Main
                     if(degree.ContainsKey(s) && degree[s]>degree[minvertex])
                     {
                         degree[s] -= 1;
-                        //Console.WriteLine(graph.g().V(s).Values("name").Next()[0]);
                     }
                 }
                 degree.Remove(minvertex);
