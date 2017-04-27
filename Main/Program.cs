@@ -109,6 +109,68 @@ namespace Main
                 Console.WriteLine("name = {0}, core_number = {1}", graph.g().V(kvp.Key).Values("name").Next()[0], kvp.Value);
             }
         }
+        static public void linearkcore(GraphViewCommand graph)
+        {
+            //Dictionary<string, int> core = new Dictionary<string, int>();
+            int n = int.Parse(graph.g().V().Count().Next()[0]);
+            int[] core = new int[n+1];
+            int[] bin = new int[n + 1];
+            int[] pos = new int[n + 1];
+            int[] vert = new int[n + 1];
+            int md = 0;
+            int d = 0;
+            for(int v=1;v<=n;v++)
+            {
+                d = int.Parse(graph.g().V().Has("name", v.ToString()).Both().Id().Count().Next()[0]);
+                core[v] = d;
+                if (d > md) md = d;
+            }
+            for (d = 0; d <= md; d++) bin[d] = 0;
+            for (int v = 1; v <= n; v++) bin[core[v]]++;
+            int start = 1;
+            for(d=0;d<=md;d++)
+            {
+                int num = bin[d];
+                bin[d] = start;
+                start += num;
+            }
+            for(int v=1;v<=n;v++)
+            {
+                pos[v] = bin[core[v]];
+                vert[pos[v]] = v;
+                bin[core[v]]++;
+            }
+            for (d = md; d >= 1; d--) bin[d] = bin[d - 1];
+            bin[0] = 1;
+            for(int i=1;i<=n;i++)
+            {
+                int v = vert[i];
+                foreach(var u in graph.g().V().Has("name",v.ToString()).Both().Values("name").Next())
+                {
+                    int t = int.Parse(u);
+                    if(core[t]>core[v])
+                    {
+                        int du = core[t];
+                        int pu = pos[t];
+                        int pw = bin[du];
+                        int w = vert[pw];
+                        if(t!=w)
+                        {
+                            pos[t] = pw;
+                            vert[pu] = w;
+                            pos[w]= pu;
+                            vert[pw] = t;
+                        }
+                        bin[du]++;
+                        core[t]--;
+                    }
+                }
+            }
+            for(int v=1;v<=n;v++)
+            {
+                Console.WriteLine("name = {0}, core_number = {1}", v, core[v]);
+            }
+        }
         static void Main(string[] args)
         {
             string DOCDB_URL = "https://localhost:8081";
@@ -120,9 +182,8 @@ namespace Main
             GraphViewCommand graph = new GraphViewCommand(connection);
             Program.LoadClassicGraphData2(graph);
 
-            Program.naivekcore(graph);
-
-            
+            //Program.naivekcore(graph);
+            Program.linearkcore(graph);                     
         }
     }
 }
