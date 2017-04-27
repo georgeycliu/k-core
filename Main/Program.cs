@@ -111,9 +111,8 @@ namespace Main
         }
         static public void linearkcore(GraphViewCommand graph)
         {
-            //Dictionary<string, int> core = new Dictionary<string, int>();
             int n = int.Parse(graph.g().V().Count().Next()[0]);
-            int[] core = new int[n+1];
+            int[] core = new int[n + 1];
             int[] bin = new int[n + 1];
             int[] pos = new int[n + 1];
             int[] vert = new int[n + 1];
