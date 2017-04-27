@@ -25,17 +25,61 @@ namespace Main
             graphCommand.g().V().Has("name", "josh").AddE("created").Property("weight", 0.4d).To(graphCommand.g().V().Has("name", "lop")).Next();
             graphCommand.g().V().Has("name", "peter").AddE("created").Property("weight", 0.2d).To(graphCommand.g().V().Has("name", "lop")).Next();
         }
-        static void Main(string[] args)
+        static public void LoadClassicGraphData2(GraphViewCommand graphCommand)
         {
-            string DOCDB_URL = "https://localhost:8081";
-            string DOCDB_AUTHKEY = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
-            string DOCDB_DATABASE = "Network Science";
-            string DOCDB_COLLECTION = "lyc";
-            GraphViewConnection connection = new GraphViewConnection(DOCDB_URL, DOCDB_AUTHKEY, DOCDB_DATABASE, DOCDB_COLLECTION);
-            connection.ResetCollection();
-            GraphViewCommand graph = new GraphViewCommand(connection);
-            Program.LoadClassicGraphData(graph);
-
+            graphCommand.g().AddV("node").Property("name", "1").Next();
+            graphCommand.g().AddV("node").Property("name", "2").Next();
+            graphCommand.g().AddV("node").Property("name", "3").Next();
+            graphCommand.g().AddV("node").Property("name", "4").Next();
+            graphCommand.g().AddV("node").Property("name", "5").Next();
+            graphCommand.g().AddV("node").Property("name", "6").Next();
+            graphCommand.g().AddV("node").Property("name", "7").Next();
+            graphCommand.g().AddV("node").Property("name", "8").Next();
+            graphCommand.g().AddV("node").Property("name", "9").Next();
+            graphCommand.g().AddV("node").Property("name", "10").Next();
+            graphCommand.g().AddV("node").Property("name", "11").Next();
+            graphCommand.g().AddV("node").Property("name", "12").Next();
+            graphCommand.g().AddV("node").Property("name", "13").Next();
+            graphCommand.g().AddV("node").Property("name", "14").Next();
+            graphCommand.g().AddV("node").Property("name", "15").Next();
+            graphCommand.g().AddV("node").Property("name", "16").Next();
+            graphCommand.g().AddV("node").Property("name", "17").Next();
+            graphCommand.g().AddV("node").Property("name", "18").Next();
+            graphCommand.g().AddV("node").Property("name", "19").Next();
+            graphCommand.g().AddV("node").Property("name", "20").Next();
+            graphCommand.g().AddV("node").Property("name", "21").Next();
+            graphCommand.g().V().Has("name", "1").AddE("edge").To(graphCommand.g().V().Has("name", "2")).Next();
+            graphCommand.g().V().Has("name", "1").AddE("edge").To(graphCommand.g().V().Has("name", "3")).Next();
+            graphCommand.g().V().Has("name", "1").AddE("edge").To(graphCommand.g().V().Has("name", "4")).Next();
+            graphCommand.g().V().Has("name", "2").AddE("edge").To(graphCommand.g().V().Has("name", "3")).Next();
+            graphCommand.g().V().Has("name", "2").AddE("edge").To(graphCommand.g().V().Has("name", "4")).Next();
+            graphCommand.g().V().Has("name", "3").AddE("edge").To(graphCommand.g().V().Has("name", "4")).Next();
+            graphCommand.g().V().Has("name", "2").AddE("edge").To(graphCommand.g().V().Has("name", "21")).Next();
+            graphCommand.g().V().Has("name", "4").AddE("edge").To(graphCommand.g().V().Has("name", "5")).Next();
+            graphCommand.g().V().Has("name", "4").AddE("edge").To(graphCommand.g().V().Has("name", "9")).Next();
+            graphCommand.g().V().Has("name", "9").AddE("edge").To(graphCommand.g().V().Has("name", "5")).Next();
+            graphCommand.g().V().Has("name", "9").AddE("edge").To(graphCommand.g().V().Has("name", "10")).Next();
+            graphCommand.g().V().Has("name", "9").AddE("edge").To(graphCommand.g().V().Has("name", "11")).Next();
+            graphCommand.g().V().Has("name", "5").AddE("edge").To(graphCommand.g().V().Has("name", "10")).Next();
+            graphCommand.g().V().Has("name", "5").AddE("edge").To(graphCommand.g().V().Has("name", "6")).Next();
+            graphCommand.g().V().Has("name", "5").AddE("edge").To(graphCommand.g().V().Has("name", "7")).Next();
+            graphCommand.g().V().Has("name", "5").AddE("edge").To(graphCommand.g().V().Has("name", "8")).Next();
+            graphCommand.g().V().Has("name", "6").AddE("edge").To(graphCommand.g().V().Has("name", "7")).Next();
+            graphCommand.g().V().Has("name", "6").AddE("edge").To(graphCommand.g().V().Has("name", "8")).Next();
+            graphCommand.g().V().Has("name", "7").AddE("edge").To(graphCommand.g().V().Has("name", "8")).Next();
+            graphCommand.g().V().Has("name", "7").AddE("edge").To(graphCommand.g().V().Has("name", "21")).Next();
+            graphCommand.g().V().Has("name", "20").AddE("edge").To(graphCommand.g().V().Has("name", "21")).Next();
+            graphCommand.g().V().Has("name", "20").AddE("edge").To(graphCommand.g().V().Has("name", "19")).Next();
+            graphCommand.g().V().Has("name", "20").AddE("edge").To(graphCommand.g().V().Has("name", "18")).Next();
+            graphCommand.g().V().Has("name", "20").AddE("edge").To(graphCommand.g().V().Has("name", "7")).Next();
+            graphCommand.g().V().Has("name", "14").AddE("edge").To(graphCommand.g().V().Has("name", "13")).Next();
+            graphCommand.g().V().Has("name", "14").AddE("edge").To(graphCommand.g().V().Has("name", "15")).Next();
+            graphCommand.g().V().Has("name", "14").AddE("edge").To(graphCommand.g().V().Has("name", "16")).Next();
+            graphCommand.g().V().Has("name", "17").AddE("edge").To(graphCommand.g().V().Has("name", "15")).Next();
+            graphCommand.g().V().Has("name", "17").AddE("edge").To(graphCommand.g().V().Has("name", "16")).Next();
+        }
+        static public void naivekcore(GraphViewCommand graph)
+        {
             var val = graph.g().V().Id().Next();
             Dictionary<string, int> degree = new Dictionary<string, int>();
             Dictionary<string, int> core = new Dictionary<string, int>();
@@ -64,6 +108,21 @@ namespace Main
             {
                 Console.WriteLine("name = {0}, core_number = {1}", graph.g().V(kvp.Key).Values("name").Next()[0], kvp.Value);
             }
+        }
+        static void Main(string[] args)
+        {
+            string DOCDB_URL = "https://localhost:8081";
+            string DOCDB_AUTHKEY = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+            string DOCDB_DATABASE = "Network Science";
+            string DOCDB_COLLECTION = "lyc";
+            GraphViewConnection connection = new GraphViewConnection(DOCDB_URL, DOCDB_AUTHKEY, DOCDB_DATABASE, DOCDB_COLLECTION);
+            connection.ResetCollection();
+            GraphViewCommand graph = new GraphViewCommand(connection);
+            Program.LoadClassicGraphData2(graph);
+
+            Program.naivekcore(graph);
+
+            
         }
     }
 }
